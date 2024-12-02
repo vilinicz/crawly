@@ -5,7 +5,8 @@ from fastapi import FastAPI, Query
 from pydantic import BaseModel
 from typing_extensions import Literal
 
-from entry import EntryCollection, Entry
+from entry import EntryCollection
+from search_aggregator import SearchAggregator
 
 logger = logging.getLogger(__name__)
 app = FastAPI()
@@ -34,8 +35,5 @@ async def root():
 async def search(
     params: Annotated[SearchParams, Query()],
 ) -> GenericResponse[EntryCollection]:
-    fake_results = [
-        Entry(title=f"{params.q} result {i}", url=f"https://example.com/{i}")
-        for i in range(10)
-    ]
-    return GenericResponse(data=EntryCollection(fake_results), meta={"params": params})
+    fake_results = SearchAggregator(params.engines).search(params.q)
+    return GenericResponse(data=fake_results, meta={"params": params})
