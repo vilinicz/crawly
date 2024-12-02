@@ -3,15 +3,14 @@ from typing import TypeVar, Generic, Annotated, Optional, get_args
 
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
-from typing_extensions import Literal
 
+from config import SearchEngine
 from entry import EntryCollection
-from search_aggregator import SearchAggregator
+from search import Aggregator
 
 logger = logging.getLogger(__name__)
 app = FastAPI()
 
-SearchEngine = Literal["google", "bing"]
 
 T = TypeVar("T")
 
@@ -35,5 +34,5 @@ async def root():
 async def search(
     params: Annotated[SearchParams, Query()],
 ) -> GenericResponse[EntryCollection]:
-    fake_results = SearchAggregator(params.engines).search(params.q)
-    return GenericResponse(data=fake_results, meta={"params": params})
+    results = await Aggregator(params.engines).search(params.q)
+    return GenericResponse(data=results, meta={"params": params})

@@ -1,8 +1,11 @@
 from pydantic import BaseModel
 from pydantic_collections import BaseCollectionModel
 
+from config import SearchEngine
+
 
 class Entry(BaseModel):
+    engine: SearchEngine
     title: str
     url: str
 

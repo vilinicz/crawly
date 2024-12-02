@@ -1,20 +1,21 @@
+import asyncio
 import logging
 from functools import reduce
 
-import httpx
+import search as search_engines
+from search.config import default_http_client
+from search.engine import Engine
 
-import search_engines
-from search_engines.engine import Engine
 
-
-class SearchAggregator:
-    def __init__(self, engine_names: [], http_client=httpx.AsyncClient()):
+class Aggregator:
+    def __init__(self, engine_names: [], http_client=default_http_client):
         self.logger = logging.getLogger("searcher")
         self.http_client = http_client
         self.engines: list[Engine] = self._init_engines(engine_names)
 
-    def search(self, q: str):
-        return reduce(lambda a, b: a + b, [engine.search(q) for engine in self.engines])
+    async def search(self, q: str):
+        results = asyncio.gather(*[engine.search(q) for engine in self.engines])
+        return reduce(lambda x, y: x + y, await results)  # Merge results
 
     def _init_engines(self, engine_names):
         engines = []
