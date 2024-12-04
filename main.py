@@ -1,6 +1,7 @@
 import logging
 from typing import TypeVar, Generic, Annotated, Optional, get_args
 
+from asgi_correlation_id import CorrelationIdMiddleware
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
 
@@ -10,6 +11,7 @@ from search import Aggregator
 
 logger = logging.getLogger(__name__)
 app = FastAPI()
+app.add_middleware(CorrelationIdMiddleware)
 
 
 T = TypeVar("T")

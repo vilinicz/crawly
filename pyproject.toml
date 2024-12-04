@@ -12,6 +12,7 @@ pyyaml = "^6.0.2"
 fastapi = "^0.115.5"
 uvicorn = "^0.32.1"
 beautifulsoup4 = "^4.12.3"
+asgi-correlation-id = "^4.3.4"
 
 
 [build-system]
