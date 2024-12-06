@@ -20,10 +20,17 @@ class Aggregator:
     def _init_engines(self, engine_names):
         engines = []
         unknown_engines = []
+
+        def engine_name_to_pascal_case(name):
+            words = name.split("_")
+            return "".join([word.capitalize() for word in words])
+
         for engine_name in engine_names:
             try:
                 engines.append(
-                    getattr(search_engines, engine_name.capitalize())(self.http_client)
+                    getattr(search_engines, engine_name_to_pascal_case(engine_name))(
+                        self.http_client
+                    )
                 )
             except AttributeError:
                 unknown_engines.append(engine_name)

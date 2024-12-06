@@ -9,7 +9,7 @@ readme = "README.md"
 python = "^3.13"
 httpx = {extras = ["http2"], version = "^0.28.0"}
 pyyaml = "^6.0.2"
-fastapi = "^0.115.5"
+fastapi = {extras = ["standard"], version = "^0.115.6"}
 uvicorn = "^0.32.1"
 beautifulsoup4 = "^4.12.3"
 asgi-correlation-id = "^4.3.4"
