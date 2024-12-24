@@ -10,7 +10,7 @@ from search.engine import Engine
 class Bing(Engine):
     def __init__(self, http_client):
         super().__init__(http_client)
-        self.url = "https://bing.com/search"
+        self.url = "https://www.bing.com/search"
         self.logger = logging.getLogger("bing")
 
     async def search(self, q: str) -> EntryCollection:
